@@ -17,7 +17,7 @@ module.exports = function(grunt) {
 		  },
 		  dist: {
 		    src:['app/**/*.js'],
-		    dest:"<%= pkg.name %>.<%= pkg.version %>.min.js"
+		    dest:"app/<%= pkg.name %>.<%= pkg.version %>.min.js"
 		  }
 		},
 		jshint: {
@@ -37,7 +37,7 @@ module.exports = function(grunt) {
 					banner : '<%= banner %>'
 				},
 				files:{
-					'app.min.css' : ['app/css/*.css']
+					'app/css/app.min.css' : ['app/css/*.css']
 				}
 			}
 		}
@@ -62,5 +62,5 @@ module.exports = function(grunt) {
 	grunt.registerTask('test', ['jshint']);
 
 	// the default task can be run just by typing "grunt" on the command line
-	grunt.registerTask('default', ['uglify','cssmin']);
+	grunt.registerTask('default', ['uglify','compass','cssmin']);
 }

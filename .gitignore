@@ -1,5 +1,6 @@
 *.min.js
 *.min.css
+*.css
 *.iml
 *.iws
 *.ipr
