@@ -8,3 +8,5 @@
 .sass-cache/
 .project
 .classpath
+app/frameworks/**/*
+node_modules/**/*git 

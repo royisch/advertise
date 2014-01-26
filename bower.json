@@ -2,19 +2,8 @@
   "name": "advertise",
   "version": "1.0.0",
   "main": "app.js",
-  "ignore": [
-  ],
+  "ignore": [],
   "dependencies": {
-     "backbone": "latest",
-     "requirejs": "latest",
-     "jquery": "latest",
-     "angular": "latest",
-     "bootstrap": "latest",
-     "passport": "latest",
-     "bower": "latest",
-     "grunt": "~0.4.2",
-     "grunt-contrib-jshint": "~0.6.3",
-     "grunt-contrib-uglify": "~0.2.2",
-     "grunt-contrib-watch": "~0.5.3"
+    "bootstrap": "~3.0.3"
   }
 }
