@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:fb="http://www.facebook.com/2008/fbml">
   <head>
     <title>Adevertise</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,7 +61,10 @@
           <div class="row">
               <div class="col-md-4">
                   <h4>first section:</h4>
+                  <div id="fb-root"></div>
                   <button type="button" class="btn btn-primary btn-lg ">Create Ad</button>
+                  <!--<fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>-->
+                  <fb:login-button show-faces="true" width="200" max-rows="1" class="btn btn-primary btn-xs" ></fb:login-button>
               </div>
               <div class="col-md-4">
                   <h4>second section:</h4>
@@ -81,6 +84,6 @@
     <script src="../frameworks/jquery/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
-
+    <script src="../utils/FacebookLogin.js"></script>
   </body>
 </html>
