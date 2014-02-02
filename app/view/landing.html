@@ -65,11 +65,17 @@
                   <button type="button" class="btn btn-primary btn-lg ">Create Ad</button>
                   <!--<fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>-->
                   <fb:login-button show-faces="true" width="200" max-rows="1" class="btn btn-primary btn-xs" ></fb:login-button>
+                  <button type="button" id="testLogin" class="btn btn-default btn-lg ">test login</button>
+
               </div>
               <div class="col-md-4">
                   <h4>second section:</h4>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  <div>
+                      <div id="name"></div>
+                      <div id="address"></div>
+                      <div id="work"></div>
+                      <div></div>
+                  </div>
               </div>
               <div class="col-md-4">
                   <h4>third section:</h4>
@@ -84,6 +90,23 @@
     <script src="../frameworks/jquery/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../utils/utils.js"></script>
     <script src="../utils/FacebookLogin.js"></script>
+
+  <script>
+      $("#testLogin").click(function(){
+          FB.api(
+                  "/me",
+                  function (response) {
+                      if (response && !response.error) {
+                          /* handle the result */
+                          $("#name").text("name : "+response.name);
+                          $("#address").text(response.hometown ? "address : "+response.hometown.name : "");
+                          $("#work").text(response.work && response.work[0] ? "work : "+response.work[0].employer.name : "");
+                      }
+                  }
+          );
+      })
+  </script>
   </body>
 </html>

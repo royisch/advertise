@@ -56,3 +56,8 @@ bower insatll jquery#1.8.0 --save
 in command line if needed proxy
 ================================
 http.proxy=http://NAME.OF.PROXY:8080
+
+install passport
+==============================
+npm install passport
+facebook authentication - npm install passport-facebook
