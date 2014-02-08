@@ -1,18 +1,27 @@
 var fs = require("fs");
-var config = JSON.parse(fs.readFileSync("config/config.json"));
+var express = require("express");
+var https = require("https");
+var config = JSON.parse(fs.readFileSync("server-config/config.json"));
 var host=config.host;
 var port = config.port;
-var express = require("express");
 
 var app = express();
 
 //root path
 app.get("/" , function(request , response){
-    response.send();
+    response.send("hello!");
 });
-console.log(__dirname);
-app.use(express.static("../app/view"))
-    .set('views',express.static("../app"))
-    .set('view engine', 'jade')
-    .use(app.router)
+
+app.use(express.static(__dirname + "/app/view"));
+
+app.get("/hello/:text" , function(request , response){
+    response.send("hello! "+request.params.text);
+});
+
+app.use(function(err, req, res, next){
+  console.error(err.stack);
+  res.send(500, 'Something broke!');
+});
+
+console.log('starting server on '+host+':'+port);
 app.listen(port,host);
