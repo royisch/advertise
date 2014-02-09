@@ -4,8 +4,6 @@
   "main": "app.js",
   "ignore": [],
   "dependencies": {
-    "bootstrap": "~3.0.3",
-    "passport": "~0.2.0",
-    "passport-facebook": "~1.0.2"
+    "bootstrap": "~3.0.3"
   }
 }

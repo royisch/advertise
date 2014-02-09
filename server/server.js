@@ -2,6 +2,7 @@ var fs = require("fs"),
 	express = require("express"),
 	https = require("https"),
 	path=require('path'),
+	facebook =require('./auth'),
 	config = JSON.parse(fs.readFileSync("server-config/config.json")),
 	host=config.host,
 	port = config.port,
@@ -21,8 +22,10 @@ app.use(function(err, req, res, next){
 
 /********************MONGO DB Test***************************/
 
+facebook.facebook(app,express);
+console.log("PUTA!");
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/app');
+//mongoose.connect('mongodb://localhost/app');
 
 var Schema = new mongoose.Schema({
     _id:String,
@@ -48,7 +51,7 @@ function createNewUser(){
 //})
 
 
-createNewUser();
+//createNewUser();
 /******************************************************/
 
 console.log('starting server on '+host+':'+port);

@@ -37,7 +37,7 @@ module.exports = function(grunt) {
 					banner : '<%= banner %>'
 				},
 				files:{
-					'../app/css/app.min.css' : ['../app/css/*.css']
+					'../app/resources/css/app.min.css' : ['../app/resources/css/*.css']
 				}
 			}
 		}
