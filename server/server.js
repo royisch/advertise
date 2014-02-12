@@ -20,7 +20,6 @@ var fs = require("fs"),
     facebook.initFacebookModule(app,express,passport,mongoose);
 
 
-
 app.get("/hello/:text" , function(request , response){
     response.send("hello! "+request.params.text);
 });
@@ -36,28 +35,6 @@ console.log("IF YOU WANT TO USE DB - DONT FORGET TO RUN MONGODB")
 var mongoose = require('mongoose');
 //mongoose.connect('mongodb://localhost/app');
 
-var Schema = new mongoose.Schema({
-    _id:String,
-    name:String,
-    age:Number
-});
-
-//an object that gives you easy access to a named collection
-//to perform action on the schema
-var Test = mongoose.model("Test",Schema);
-
-function createNewUser(){
-    new Test({
-        _id:Date.now(),
-        name:"this is a test",
-        age:"66"
-    }).save(function(err,doc){
-            if(err) console.log("Error :",err);
-            else    console.log('Successfully inserted!' ,doc)
-        })
-}
-
-//createNewUser();
 /******************************************************/
 
 console.log('starting server on '+host+':'+port);

@@ -25,17 +25,20 @@ var mongoose = require('mongoose'),
  * User Schema
  */
 var UserSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    username: {
-        type: String,
-        unique: true
+
+    myId:String,
+    name:String,
+    username:{
+        nickname : String
     },
-    facebook: {
-        provider: String,
+    first_name:String,
+    last_name:String,
+    link:String,
+    timezone:String,
+    locale:String,
+    facebook:{
         token:String
-    },
-    google: {} //for later :)
+    }
 });
 
 
@@ -43,55 +46,42 @@ var UserSchema = new mongoose.Schema({
  * Methods
  */
 UserSchema.methods = {
-    /**
-     * Authenticate - check if the passwords are the same
-     *
-     * @param {String} plainText
-     * @return {Boolean}
-     * @api public
-     */
-    authenticate: function(plainText) {
-        return this.encryptPassword(plainText) === this.hashed_password;
+
+    createNewUser: function(user,provider,token){
+
+        new User({
+            myId:provider+"-"+user.id,
+            name:user.name,
+            username:{
+                nickname : user.username
+            },
+            first_name:user.first_name,
+            last_name:user.last_name,
+            link:user.link,
+            timezone:user.timezone,
+            locale:user.locale,
+            facebook:{
+                token:token
+            }
+        }).save(function(err,doc){
+                if(err) console.log("Error :",err);
+                else    console.log('Successfully inserted!' ,doc)
+            })
     },
 
-    /**
-     * Make salt
-     *
-     * @return {String}
-     * @api public
-     */
-    makeSalt: function() {
-        return crypto.randomBytes(16).toString('base64');
-    },
+    getUser : function(profile){
 
-    /**
-     * Encrypt password
-     *
-     * @param {String} password
-     * @return {String}
-     * @api public
-     */
-    encryptPassword: function(password) {
-        if (!password || !this.salt) return '';
-        var salt = new Buffer(this.salt, 'base64');
-        return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
-    },
+        this.findOne({"myId": profile.myId} ,"name username",function (err, user) {
+            if (err){
+                console.log("error fetching user "+err);
+            }
+            else {
+                console.log("user fetched "+user.toString()); // Space Ghost is a talk show host.
+            }
 
-    /**
-     *
-     * @param userInfo - user info to save
-     */
-    saveUserInfo : function(userInfo){
-
-            new User({
-                name: userInfo.name,
-                email: userInfo.email,
-                username: userInfo.userName
-            }).save(function(err,doc){
-                    if(err) console.log("Error :",err);
-                    else    console.log('Successfully inserted!')
-                })
+        });
     }
+
 };
 
 mongoose.model('User', UserSchema);
