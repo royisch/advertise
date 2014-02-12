@@ -31,28 +31,12 @@ var UserSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    hashed_password: String,
-    provider: String,
-    salt: String,
-    facebook: {},
+    facebook: {
+        provider: String,
+        token:String
+    },
     google: {} //for later :)
 });
-
-/**
- * Virtuals -
- * Virtual attributes are attributes that are convenient to have around
- * but that do not get persisted to mongodb.
- */
-UserSchema.virtual('password').set(function(password) {
-    this._password = password;
-    //this is taken from mean.io- related
-    // the purpose of the salt is to defeat rainbow table attacks
-    // http://en.wikipedia.org/wiki/Rainbow_table
-    this.salt = this.makeSalt();
-    this.hashed_password = this.encryptPassword(password);
-}).get(function() {
-        return this._password;
-    });
 
 
 /**

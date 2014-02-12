@@ -2,14 +2,24 @@ var fs = require("fs"),
 	express = require("express"),
 	https = require("https"),
 	path=require('path'),
+    mongoose = require('mongoose'),
+    passport = require('passport'),
 	facebook =require('./auth'),
+	model =require('./model/User.js'),
 	config = JSON.parse(fs.readFileSync("server-config/config.json")),
 	host=config.host,
 	port = config.port,
 	app = express();
 
-app.use(express.static(path.join(__dirname , "../app/view")));
-app.use(express.static(path.join(__dirname , "../app")));
+    //defining root folders
+    app.use(express.static(path.join(__dirname , "../app/view")));
+    app.use(express.static(path.join(__dirname , "../app")));
+
+    //initialize modules
+    require('./server-config/config.js').configureDependencies(app, path ,express , passport);
+    facebook.initFacebookModule(app,express,passport,mongoose);
+
+
 
 app.get("/hello/:text" , function(request , response){
     response.send("hello! "+request.params.text);
@@ -22,8 +32,7 @@ app.use(function(err, req, res, next){
 
 /********************MONGO DB Test***************************/
 
-facebook.facebook(app,express);
-console.log("PUTA!");
+console.log("IF YOU WANT TO USE DB - DONT FORGET TO RUN MONGODB")
 var mongoose = require('mongoose');
 //mongoose.connect('mongodb://localhost/app');
 
@@ -37,7 +46,6 @@ var Schema = new mongoose.Schema({
 //to perform action on the schema
 var Test = mongoose.model("Test",Schema);
 
-//app.post("/new" , function(req,res){
 function createNewUser(){
     new Test({
         _id:Date.now(),
@@ -48,8 +56,6 @@ function createNewUser(){
             else    console.log('Successfully inserted!' ,doc)
         })
 }
-//})
-
 
 //createNewUser();
 /******************************************************/

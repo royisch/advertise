@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:fb="http://www.facebook.com/2008/fbml">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" id="ng-app" ng-app>
   <head>
-    <title>Adevertise</title>
+    <title>Test</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="../frameworks/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,7 +21,7 @@
       	<div class="container">
 
 
-      		<div class="navbar-brand">Advertise</div>
+      		<div class="navbar-brand">test</div>
 
       		<button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
       		<span class ="icon-bar"></span>
@@ -83,22 +83,6 @@
     <script src="../frameworks/jquery/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../frameworks/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../utils/FacebookLogin.js"></script>
 
-  <script>
-      $("#testLogin").click(function(){
-          FB.api(
-                  "/me",
-                  function (response) {
-                      if (response && !response.error) {
-                          /* handle the result */
-                          $("#name").text("name : "+response.name);
-                          $("#address").text(response.hometown ? "address : "+response.hometown.name : "");
-                          $("#work").text(response.work && response.work[0] ? "work : "+response.work[0].employer.name : "");
-                      }
-                  }
-          );
-      })
-  </script>
   </body>
 </html>
