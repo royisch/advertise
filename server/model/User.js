@@ -4,19 +4,7 @@
  * Module dependencies.
  */
 
-/*
-* The permitted SchemaTypes are
 
- String
- Number
- Date
- Buffer
- Boolean
- Mixed
- ObjectId
- Array
-
- */
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     crypto = require('crypto');
@@ -43,45 +31,54 @@ var UserSchema = new mongoose.Schema({
 
 
 /**
- * Methods
+ *
+ * statics
  */
-UserSchema.methods = {
+UserSchema.statics.createNewUser = function(user,provider,token , callback){
 
-    createNewUser: function(user,provider,token){
-
-        new User({
-            myId:provider+"-"+user.id,
-            name:user.name,
-            username:{
-                nickname : user.username
-            },
-            first_name:user.first_name,
-            last_name:user.last_name,
-            link:user.link,
-            timezone:user.timezone,
-            locale:user.locale,
-            facebook:{
-                token:token
-            }
-        }).save(function(err,doc){
-                if(err) console.log("Error :",err);
-                else    console.log('Successfully inserted!' ,doc)
-            })
-    },
-
-    getUser : function(profile){
-
-        this.findOne({"myId": profile.myId} ,"name username",function (err, user) {
-            if (err){
-                console.log("error fetching user "+err);
-            }
-            else {
-                console.log("user fetched "+user.toString()); // Space Ghost is a talk show host.
-            }
-
-        });
-    }
+    this.create({
+        myId:provider+"-"+user.id,
+        name:user.name,
+        username:{
+            nickname : user.username
+        },
+        first_name:user.first_name,
+        last_name:user.last_name,
+        link:user.link,
+        timezone:user.timezone,
+        locale:user.locale,
+        facebook:{
+            token:token
+        }
+    }, function (err, small) {
+        if (err) console.log("Error :",err);
+        // saved!
+    }).exec(callback);
 
 };
+
+
+UserSchema.statics.getUser = function(profile , callback){
+
+    this.findOne({"myId": profile.myId} ,function (err, user) {
+        if (err){
+            console.log("error fetching user "+err);
+        }
+    }).exec(callback);
+};
+
+UserSchema.statics.setAccessToken = function(myId,accessToken){
+    this.findOne({"myId": myId} ,function (err, user) {
+        if (err){
+            console.log("error fetching user "+err);
+        }
+        else {
+            user.facebook.token = accessToken;
+            console.log("access token fetched "+accessToken); // Space Ghost is a talk show host.
+        }
+
+    });
+};
+
 
 mongoose.model('User', UserSchema);

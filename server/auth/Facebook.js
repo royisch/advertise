@@ -35,8 +35,16 @@ module.exports = {
                 clientSecret:FACEBOOK_APP_SECRET,
                 callbackURL:"http://localhost:1337/auth/facebook/callback"//,
             },
-            function (accessToken, refreshToken, profile, done) {
-                console.log("accessToken :" + accessToken.toString());
+            function test(accessToken, refreshToken, profile, done) {
+                if(accessToken && profile){
+                    profile.myId = "FB-"+profile.id;
+                    User.setAccessToken(profile.myId,accessToken);
+                    var userProfile = User.getUser(profile); //dont forget to add a callback to exec when DB fetches
+                    done(null,userProfile,accessToken);
+                }
+                else{
+                    User.createNewUser(profile,"FB",accessToken); //dont forget to add a callback to exec when DB creates
+                }
             }
         ));
 
