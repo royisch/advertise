@@ -29,7 +29,7 @@ app.use(function(err, req, res, next){
   res.send(500, 'Something broke!');
 });
 
-/********************MONGO DB Test***************************/
+/********************MONGO DB Example***************************/
 
 console.log("IF YOU WANT TO USE DB - DONT FORGET TO RUN MONGODB");
 mongoose.connect('mongodb://localhost/app');
@@ -50,7 +50,7 @@ function test(accessToken, refreshToken, profile, done) {
 
     var callback = function(err,user){
         console.log(user);
-    }
+    };
 
     if(accessToken && profile){
         profile.myId = "FB-"+profile.id;
@@ -68,9 +68,11 @@ function test(accessToken, refreshToken, profile, done) {
     console.log("1111"+b)
 });*/
 
+/*
 test("aaaaa" , undefined , fbUser , function(a,b,c){
     console.log("2222"+b)
 });
+*/
 
 
 

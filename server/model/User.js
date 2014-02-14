@@ -34,7 +34,7 @@ var UserSchema = new mongoose.Schema({
  *
  * statics
  */
-UserSchema.statics.createNewUser = function(user,provider,token , callback){
+UserSchema.statics.createNewUser = function(user,provider,token,callback){
 
     this.create({
         myId:provider+"-"+user.id,
@@ -50,10 +50,14 @@ UserSchema.statics.createNewUser = function(user,provider,token , callback){
         facebook:{
             token:token
         }
-    }, function (err, small) {
-        if (err) console.log("Error :",err);
+    }, function (err, user) {
+        if (err) {
+            console.log("Error :",err);
+            return;
+        }
         // saved!
-    }).exec(callback);
+        callback(err,user);
+    });
 
 };
 

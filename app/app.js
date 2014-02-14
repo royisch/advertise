@@ -15,7 +15,7 @@ app.config(['$routeProvider',
                 templateUrl: '../partials/login.html',
                 controller: 'loginCtrl'
             }).
-            when('/:user', {
+            when('/inside', {
                 templateUrl: '../partials/landing.html',
                 controller: 'landingCtrl'
             }).

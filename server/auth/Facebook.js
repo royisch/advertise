@@ -35,18 +35,21 @@ module.exports = {
                 clientSecret:FACEBOOK_APP_SECRET,
                 callbackURL:"http://localhost:1337/auth/facebook/callback"//,
             },
-            function test(accessToken, refreshToken, profile, done) {
-                if(accessToken && profile){
-                    profile.myId = "FB-"+profile.id;
-                    User.setAccessToken(profile.myId,accessToken);
-                    var userProfile = User.getUser(profile); //dont forget to add a callback to exec when DB fetches
-                    done(null,userProfile,accessToken);
-                }
-                else{
-                    User.createNewUser(profile,"FB",accessToken); //dont forget to add a callback to exec when DB creates
-                }
+            function(accessToken, refreshToken, profile, done) {
+
+                User.findOne({myId : "FB-"+profile.id}, function(err, oldUser){
+                    if(oldUser){
+                        done(null,oldUser);
+                    }else{
+                        User.createNewUser(profile,"FB",accessToken , function(err,newUser){
+                            if(err) throw err;
+                            done(null, newUser);
+                        });
+                    }
+                });
             }
         ));
+
 
 
 // GET /auth/facebook
@@ -62,9 +65,9 @@ module.exports = {
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
         app.get('/auth/facebook/callback',
-            passport.authenticate('facebook', { successRedirect:'/',
-                failureRedirect:'/login' })
-        );
+            passport.authenticate('facebook', { successRedirect:'/#inside',
+                failureRedirect:'/' }
+            ));
 
 
     }
