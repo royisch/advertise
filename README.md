@@ -65,3 +65,7 @@ facebook authentication - npm install passport-facebook
 to run nodejs
 mongod.exe --dbpath C:\Private\advertise\mongodb\data
 *dbpath is the path of your node server to the data folder
+
+how to connect to the website
+==============================
+go to localhost:1337/index
