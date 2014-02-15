@@ -1,0 +1,45 @@
+{
+    "accessToken":"CAADZCTZBofOkkBABPvrMZBX6XUIbn3HUVBIkjaZAqtehoSu8JuYOWjNxL75WZBNzIafsre4wslFBpBAd4tZCzVgp1YSCmw4zYpVpA2BWJRMPIocA4k6HAZAjBoanYnEae04MdFjkxIBhZCi607jf1ZAT9qOPZCYWQ6QW75hyoJZAtLb3BB7uRn9HmZBjOe7sZCRcic6MZD",
+    "profile":{
+        "id":"650067818",
+        "name":"Royi Schwartz",
+        "first_name":"Royi",
+        "last_name":"Schwartz",
+        "link":"https://www.facebook.com/royi.schwartz",
+        "hometown":{
+            "id":"111883262170577",
+            "name":"Kiryat Tivon"
+        },
+        "work":[
+            {
+                "employer":{
+                    "id":"202412143111920",
+                    "name":"HP-Software"
+                },
+                "start_date":"0000-00"
+            }
+        ],
+        "education":[
+            {
+                "school":{
+                    "id":"108402989191880",
+                    "name":"Ort Qiryat Tivon"
+                },
+                "type":"High School"
+            },
+            {
+                "school":{
+                    "id":"112508188760881",
+                    "name":"Ben-Gurion University of the Negev"
+                },
+                "type":"College"
+            }
+        ],
+        "gender":"male",
+        "timezone":2,
+        "locale":"en_US",
+        "verified":true,
+        "updated_time":"2014-01-25T16:09:28+0000",
+        "username":"royi.schwartz"
+    }
+}

@@ -4,19 +4,7 @@
  * Module dependencies.
  */
 
-/*
-* The permitted SchemaTypes are
 
- String
- Number
- Date
- Buffer
- Boolean
- Mixed
- ObjectId
- Array
-
- */
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     crypto = require('crypto');
@@ -25,73 +13,76 @@ var mongoose = require('mongoose'),
  * User Schema
  */
 var UserSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    username: {
-        type: String,
-        unique: true
+
+    myId:String,
+    name:String,
+    username:{
+        nickname : String
     },
-    facebook: {
-        provider: String,
+    first_name:String,
+    last_name:String,
+    link:String,
+    timezone:String,
+    locale:String,
+    facebook:{
         token:String
-    },
-    google: {} //for later :)
+    }
 });
 
 
 /**
- * Methods
+ *
+ * statics
  */
-UserSchema.methods = {
-    /**
-     * Authenticate - check if the passwords are the same
-     *
-     * @param {String} plainText
-     * @return {Boolean}
-     * @api public
-     */
-    authenticate: function(plainText) {
-        return this.encryptPassword(plainText) === this.hashed_password;
-    },
+UserSchema.statics.createNewUser = function(user,provider,token,callback){
 
-    /**
-     * Make salt
-     *
-     * @return {String}
-     * @api public
-     */
-    makeSalt: function() {
-        return crypto.randomBytes(16).toString('base64');
-    },
+    this.create({
+        myId:provider+"-"+user.id,
+        name:user.name,
+        username:{
+            nickname : user.username
+        },
+        first_name:user.first_name,
+        last_name:user.last_name,
+        link:user.link,
+        timezone:user.timezone,
+        locale:user.locale,
+        facebook:{
+            token:token
+        }
+    }, function (err, user) {
+        if (err) {
+            console.log("Error :",err);
+            return;
+        }
+        // saved!
+        callback(err,user);
+    });
 
-    /**
-     * Encrypt password
-     *
-     * @param {String} password
-     * @return {String}
-     * @api public
-     */
-    encryptPassword: function(password) {
-        if (!password || !this.salt) return '';
-        var salt = new Buffer(this.salt, 'base64');
-        return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
-    },
-
-    /**
-     *
-     * @param userInfo - user info to save
-     */
-    saveUserInfo : function(userInfo){
-
-            new User({
-                name: userInfo.name,
-                email: userInfo.email,
-                username: userInfo.userName
-            }).save(function(err,doc){
-                    if(err) console.log("Error :",err);
-                    else    console.log('Successfully inserted!')
-                })
-    }
 };
+
+
+UserSchema.statics.getUser = function(profile , callback){
+
+    this.findOne({"myId": profile.myId} ,function (err, user) {
+        if (err){
+            console.log("error fetching user "+err);
+        }
+    }).exec(callback);
+};
+
+UserSchema.statics.setAccessToken = function(myId,accessToken){
+    this.findOne({"myId": myId} ,function (err, user) {
+        if (err){
+            console.log("error fetching user "+err);
+        }
+        else {
+            user.facebook.token = accessToken;
+            console.log("access token fetched "+accessToken); // Space Ghost is a talk show host.
+        }
+
+    });
+};
+
 
 mongoose.model('User', UserSchema);

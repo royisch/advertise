@@ -20,7 +20,6 @@ var fs = require("fs"),
     facebook.initFacebookModule(app,express,passport,mongoose);
 
 
-
 app.get("/hello/:text" , function(request , response){
     response.send("hello! "+request.params.text);
 });
@@ -30,34 +29,54 @@ app.use(function(err, req, res, next){
   res.send(500, 'Something broke!');
 });
 
-/********************MONGO DB Test***************************/
+/********************MONGO DB Example***************************/
 
-console.log("IF YOU WANT TO USE DB - DONT FORGET TO RUN MONGODB")
-var mongoose = require('mongoose');
-//mongoose.connect('mongodb://localhost/app');
+console.log("IF YOU WANT TO USE DB - DONT FORGET TO RUN MONGODB");
+mongoose.connect('mongodb://localhost/app');
 
-var Schema = new mongoose.Schema({
-    _id:String,
-    name:String,
-    age:Number
-});
+var User = mongoose.model("User");
+var fbUser =    {
+                id:"650067818",
+                name:"Royi Schwartz",
+                username: "royi.schwartz",
+                first_name:"royi",
+                last_name:"schwartz",
+                link:"http://www.ynet.co.il",
+                timezone:2,
+                locale:"en_US"
+            };
 
-//an object that gives you easy access to a named collection
-//to perform action on the schema
-var Test = mongoose.model("Test",Schema);
+function test(accessToken, refreshToken, profile, done) {
 
-function createNewUser(){
-    new Test({
-        _id:Date.now(),
-        name:"this is a test",
-        age:"66"
-    }).save(function(err,doc){
-            if(err) console.log("Error :",err);
-            else    console.log('Successfully inserted!' ,doc)
-        })
+    var callback = function(err,user){
+        console.log(user);
+    };
+
+    if(accessToken && profile){
+        profile.myId = "FB-"+profile.id;
+        User.setAccessToken(profile.myId,accessToken);
+        var userProfile = User.getUser(profile ,callback);
+        done(null,userProfile,accessToken);
+    }
+    else{
+        User.createNewUser(profile,"FB",accessToken,callback);
+    }
+    console.log("accessToken :" + accessToken);
 }
 
-//createNewUser();
+/*test(undefined , undefined , fbUser , function(a,b,c){
+    console.log("1111"+b)
+});*/
+
+/*
+test("aaaaa" , undefined , fbUser , function(a,b,c){
+    console.log("2222"+b)
+});
+*/
+
+
+
+
 /******************************************************/
 
 console.log('starting server on '+host+':'+port);
