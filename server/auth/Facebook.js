@@ -7,7 +7,8 @@ module.exports = {
         var FacebookStrategy = require('passport-facebook').Strategy,
             FACEBOOK_APP_ID = "280718695414345",
             FACEBOOK_APP_SECRET = "6745ed57168c6ed093f20c6bc6f3008f",
-            User = mongoose.model("User");
+            User = mongoose.model("User"),
+            currentUser;
 
 
 // Passport session setup.
@@ -33,16 +34,22 @@ module.exports = {
         passport.use(new FacebookStrategy({
                 clientID:FACEBOOK_APP_ID,
                 clientSecret:FACEBOOK_APP_SECRET,
-                callbackURL:"http://localhost:1337/auth/facebook/callback"//,
+                profileFields: ['id','name','username','first_name','last_name','link','timezone' ,'locale', 'displayName', 'link', 'about_me', 'photos', 'emails'],
+                callbackURL:"http://localhost:1337/auth/facebook/callback"/*,
+                passReqToCallback : true*/
             },
             function(accessToken, refreshToken, profile, done) {
-
+                if(!profile){
+                    done(null, null);
+                }
                 User.findOne({myId : "FB-"+profile.id}, function(err, oldUser){
                     if(oldUser){
+                        currentUser = oldUser;
                         done(null,oldUser);
                     }else{
                         User.createNewUser(profile,"FB",accessToken , function(err,newUser){
                             if(err) throw err;
+                            currentUser = newUser;
                             done(null, newUser);
                         });
                     }
@@ -70,5 +77,14 @@ module.exports = {
             ));
 
 
+        app.get('/service/user',function(req,res){
+            res.send(currentUser);
+        });
+
+        /*app.get('/logout', function(req, res){
+            req.logout();
+            res.redirect('/');
+        });*/
     }
-}
+
+};

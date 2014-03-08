@@ -26,7 +26,8 @@ var UserSchema = new mongoose.Schema({
     locale:String,
     facebook:{
         token:String
-    }
+    },
+    profilePic:String
 });
 
 
@@ -38,15 +39,13 @@ UserSchema.statics.createNewUser = function(user,provider,token,callback){
 
     this.create({
         myId:provider+"-"+user.id,
-        name:user.name,
+        name:user.displayName,
         username:{
             nickname : user.username
         },
-        first_name:user.first_name,
-        last_name:user.last_name,
-        link:user.link,
-        timezone:user.timezone,
-        locale:user.locale,
+        first_name:user.name.givenName,
+        last_name:user.name.familyName,
+        profilePic:user.photos && user.photos[0] && user.photos[0].value,
         facebook:{
             token:token
         }
