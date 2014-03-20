@@ -7,6 +7,7 @@ module.exports = {
         var FacebookStrategy = require('passport-facebook').Strategy,
             FACEBOOK_APP_ID = "280718695414345",
             FACEBOOK_APP_SECRET = "6745ed57168c6ed093f20c6bc6f3008f",
+            graphAPI = require('fbgraph'),
             User = mongoose.model("User"),
             currentUser;
 
@@ -54,8 +55,23 @@ module.exports = {
                         });
                     }
                 });
-            }
-        ));
+                graphAPI.extendAccessToken({
+                        "access_token":    accessToken,
+                        "client_id":      FACEBOOK_APP_ID,
+                        "client_secret":  FACEBOOK_APP_SECRET
+                    }, function (err, facebookRes) {
+                        graphAPI.setAccessToken(facebookRes.access_token);
+                        //pass along to the next requests the object - it will be on req.myVar
+                        //only after calling done function, the authentication continues ands facebook
+                        //calls the /auth/facebook/callback function to continue the flow
+                        //why do we want to do it? lets say we want to do all sorts of things before
+                        //we return to the client, like extend the token , before rendering the new page
+                        //we can do some manipulation
+                        done(null,{token: facebookRes.access_token, profile: profile});
+                    }
+                );
+            })
+        );
 
 
 
