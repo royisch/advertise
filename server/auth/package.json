@@ -1,9 +1,10 @@
 {
-    "name": "facebook-login",
+    "name": "vendors-login",
     "version": "0.0.0",
-    "main": "facebook",
+    "main": "authMain",
     "dependencies": {
         "passport": ">= 0.0.0",
-        "passport-facebook": ">= 0.0.0"
+        "passport-facebook": ">= 0.0.0",
+        "passport-google":">= 0.0.0"
     }
 }

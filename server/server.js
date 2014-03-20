@@ -4,7 +4,7 @@ var fs = require("fs"),
 	path=require('path'),
     mongoose = require('mongoose'),
     passport = require('passport'),
-	facebook =require('./auth'),
+	vendorAuth =require('./auth'),
 	model =require('./model/User.js'),
 	config = JSON.parse(fs.readFileSync("server-config/config.json")),
 	host=config.host,
@@ -17,7 +17,7 @@ var fs = require("fs"),
 
     //initialize modules
     require('./server-config/config.js').configureDependencies(app, path ,express , passport);
-    facebook.initFacebookModule(app,express,passport,mongoose);
+    vendorAuth.vendorAuthentication(app,express,passport,mongoose);
 
 
 app.get("/hello/:text" , function(request , response){
