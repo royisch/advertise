@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" ng-controller="loginCtrl">
     <div class="row">
         <div class="col-xs-6 col-md-4">
         </div>
@@ -11,9 +11,9 @@
             </br>
             </br>
             <div class="social-wrap a">
-                <a href="/auth/facebook" ><button id="facebook">Sign in with Facebook</button></a>
+                <a href="/auth/facebook" ><button ng-click="loginToFacebook()" id="facebook">Sign in with Facebook</button></a>
                 <a href="" ><button  id="twitter">Sign in with Twitter</button></a>
-                    <a href="" ><button id="googleplus">Sign in with Google</button></a>
+                    <a href="/auth/google" ><button ng-click="loginToGoogle()" id="googleplus">Sign in with Google</button></a>
             </div>
         </div>
         <div class="col-xs-6 col-md-4">

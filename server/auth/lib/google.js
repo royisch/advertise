@@ -5,8 +5,8 @@ module.exports = {
         console.log("google module");
 
         var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
-            GOOGLE_APP_ID = "613107833479.apps.googleusercontent.com",
-            GOOGLE_APP_SECRET = "613107833479@developer.gserviceaccount.com", //? todo validate that this is the app secret
+            GOOGLE_APP_ID = "613107833479-9ugoahut85ch3gg7q4ahfj4r16628urk.apps.googleusercontent.com",
+            GOOGLE_APP_SECRET = "QIJ45eRMtH4IlltHiznkCajZ", //? todo validate that this is the app secret
             User = mongoose.model("User"),
             currentUser;
 
@@ -34,7 +34,6 @@ module.exports = {
         passport.use(new GoogleStrategy({
                 clientID:GOOGLE_APP_ID,
                 clientSecret:GOOGLE_APP_SECRET,
-                profileFields: ['id','name','username','first_name','last_name','link','timezone' ,'locale', 'displayName', 'link', 'about_me', 'photos', 'emails'],
                 callbackURL:"http://localhost:1337/auth/google/callback"/*,
                 passReqToCallback : true*/
             },
@@ -42,26 +41,31 @@ module.exports = {
                 if(!profile){
                     done(null, null);
                 }
-                User.findOne({myId : "FB-"+profile.id}, function(err, oldUser){
+                User.findOne({myId : "GL-"+profile.id}, function(err, oldUser){
                     if(oldUser){
+                        console.log("google");
                         currentUser = oldUser;
-                        done(null,oldUser);
                     }else{
-                        User.createNewUser(profile,"FB",accessToken , function(err,newUser){
-                            if(err) throw err;
-                            currentUser = newUser;
-                            done(null, newUser);
+                        var email = profile.emails && profile.emails[0].value;
+                        User.findOne({email : email},function(err,oldUserEmail){
+                            if(oldUserEmail){
+                                console.log("email");
+                                currentUser = oldUserEmail;
+                            }
+                            else{
+                                User.createNewUser(profile,"GL",accessToken , function(err,newUser){
+                                    console.log("create new user");
+                                    if(err) throw err;
+                                    currentUser = newUser;
+                                });
+                            }
                         });
                     }
                 });
-                //pass along to the next requests the object - it will be on req.myVar
-                //only after calling done function, the authentication continues ands facebook
-                //calls the /auth/facebook/callback function to continue the flow
-                //why do we want to do it? lets say we want to do all sorts of things before
-                //we return to the client, like extend the token , before rendering the new page
-                //we can do some manipulation
+                done(null,{token: accessToken, profile: currentUser});
             })
-        );
+
+    );
 
 
 
@@ -70,23 +74,25 @@ module.exports = {
 //   request.  The first step in Facebook authentication will involve
 //   redirecting the user to facebook.com.  After authorization, Facebook will
 //   redirect the user back to this application at /auth/facebook/callback
-        passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
-            'https://www.googleapis.com/auth/userinfo.email'] });
+        app.get('/auth/google',passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email'] })
+        );
 
 // GET /auth/facebook/callback
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-        app.get('/auth/facebook/callback',
+        app.get('/auth/google/callback',
         passport.authenticate('google', { failureRedirect: '/' }),
             function(req, res) {
-                res.redirect('/inside');
+                res.redirect('/#inside');
             }
             );
 
 
         app.get('/service/user',function(req,res){
+            console.log('took google api');
             res.send(currentUser);
         });
 
