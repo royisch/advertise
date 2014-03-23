@@ -98,12 +98,12 @@ module.exports = {
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
         app.get('/auth/facebook/callback',
-            passport.authenticate('facebook', { successRedirect:'/#inside',
+            passport.authenticate('facebook', { successRedirect:'/#inside/fb',
                 failureRedirect:'/' }
             ));
 
 
-        app.get('/service/user',function(req,res){
+        app.get('/service/userfb',function(req,res){
             console.log("took facebook api");
             res.send(currentUser);
         });

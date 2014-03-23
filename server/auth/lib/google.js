@@ -86,12 +86,12 @@ module.exports = {
         app.get('/auth/google/callback',
         passport.authenticate('google', { failureRedirect: '/' }),
             function(req, res) {
-                res.redirect('/#inside');
+                res.redirect('/#inside/gl');
             }
             );
 
 
-        app.get('/service/user',function(req,res){
+        app.get('/service/usergl',function(req,res){
             console.log('took google api');
             res.send(currentUser);
         });
