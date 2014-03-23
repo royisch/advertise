@@ -45,16 +45,26 @@ module.exports = {
                 }
                 User.findOne({myId : "FB-"+profile.id}, function(err, oldUser){
                     if(oldUser){
+                        console.log("facebook");
                         currentUser = oldUser;
-                        done(null,oldUser);
                     }else{
-                        User.createNewUser(profile,"FB",accessToken , function(err,newUser){
-                            if(err) throw err;
-                            currentUser = newUser;
-                            done(null, newUser);
-                        });
+                        var email = profile.emails && profile.emails[0].value;
+                            User.findOne({email : email},function(err,oldUserEmail){
+                                if(oldUserEmail){
+                                    console.log("email");
+                                    currentUser = oldUserEmail;
+                                }
+                                else{
+                                    User.createNewUser(profile,"FB",accessToken , function(err,newUser){
+                                        console.log("create new user");
+                                        if(err) throw err;
+                                        currentUser = newUser;
+                                    });
+                                }
+                            });
                     }
                 });
+
                 graphAPI.extendAccessToken({
                         "access_token":    accessToken,
                         "client_id":      FACEBOOK_APP_ID,
@@ -67,7 +77,7 @@ module.exports = {
                         //why do we want to do it? lets say we want to do all sorts of things before
                         //we return to the client, like extend the token , before rendering the new page
                         //we can do some manipulation
-                        done(null,{token: facebookRes.access_token, profile: profile});
+                        done(null,{token: facebookRes.access_token, profile: currentUser});
                     }
                 );
             })
@@ -80,7 +90,7 @@ module.exports = {
 //   request.  The first step in Facebook authentication will involve
 //   redirecting the user to facebook.com.  After authorization, Facebook will
 //   redirect the user back to this application at /auth/facebook/callback
-        app.get('/auth/facebook', passport.authenticate('facebook'));
+        app.get('/auth/facebook', passport.authenticate('facebook',{ scope: 'email' }));
 
 // GET /auth/facebook/callback
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -94,6 +104,7 @@ module.exports = {
 
 
         app.get('/service/user',function(req,res){
+            console.log("took facebook api");
             res.send(currentUser);
         });
 
