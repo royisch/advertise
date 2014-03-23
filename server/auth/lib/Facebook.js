@@ -20,13 +20,15 @@ module.exports = {
 //   have a database of user records, the complete Facebook profile is serialized
 //   and deserialized.
         passport.serializeUser(function (user, done) {
-            done(null, user);
+            done(null, user.id);
         });
 
-        passport.deserializeUser(function (obj, done) {
-            done(null, obj);
+        passport.deserializeUser(function (id, done) {
+            //done(null, obj);
+            User.findById(id, function(err, user) {
+                done(err, user);
+            });
         });
-
 
 // Use the FacebookStrategy within Passport.
 //   Strategies in Passport require a `verify` function, which accept
@@ -77,7 +79,8 @@ module.exports = {
                         //why do we want to do it? lets say we want to do all sorts of things before
                         //we return to the client, like extend the token , before rendering the new page
                         //we can do some manipulation
-                        done(null,{token: facebookRes.access_token, profile: currentUser});
+                        //done(null,{token: facebookRes.access_token, profile: currentUser});
+                        done(null,currentUser);
                     }
                 );
             })
@@ -105,7 +108,7 @@ module.exports = {
 
         app.get('/service/userfb',function(req,res){
             console.log("took facebook api");
-            res.send(currentUser);
+            res.send({profilePic:req.user.profilePic ,name : req.user.name});
         });
 
         /*app.get('/logout', function(req, res){

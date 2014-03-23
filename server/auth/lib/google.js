@@ -19,11 +19,14 @@ module.exports = {
 //   have a database of user records, the complete GOOGLE profile is serialized
 //   and deserialized.
         passport.serializeUser(function (user, done) {
-            done(null, user);
+            done(null, user.id);
         });
 
-        passport.deserializeUser(function (obj, done) {
-            done(null, obj);
+        passport.deserializeUser(function (id, done) {
+            //done(null, obj);
+            User.findById(id, function(err, user) {
+                done(err, user);
+            });
         });
 
 
@@ -62,7 +65,8 @@ module.exports = {
                         });
                     }
                 });
-                done(null,{token: accessToken, profile: currentUser});
+                //done(null,{token: accessToken, profile: currentUser});
+                done(null,currentUser);
             })
 
     );
