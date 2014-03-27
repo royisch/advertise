@@ -69,3 +69,8 @@ mongod.exe --dbpath C:\Private\advertise\mongodb\data
 how to connect to the website
 ==============================
 go to localhost:1337/index
+
+our gmail for adwords test account:
+gladstest@gmail.com
+royishay
+dev tokenE_MbVbJKNG6wN9DEyEFlpw
