@@ -37,7 +37,7 @@ module.exports = {
         passport.use(new FacebookStrategy({
                 clientID:FACEBOOK_APP_ID,
                 clientSecret:FACEBOOK_APP_SECRET,
-                profileFields: ['id','name','username','first_name','last_name','link','timezone' ,'locale', 'displayName', 'link', 'about_me', 'photos', 'emails'],
+                profileFields: ['id','name','username','first_name','last_name','link','timezone' ,'locale', 'displayName', 'link', 'photos', 'emails'],
                 callbackURL:"http://localhost:1337/auth/facebook/callback"/*,
                 passReqToCallback : true*/
             },
