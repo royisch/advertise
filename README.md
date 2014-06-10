@@ -3,16 +3,16 @@ advertise
 
 what to install for grunt
 =============================
-grunt : npm install -g grunt-cli
-grunt : npm install grunt --save-dev  - add yourself to devDependencies
+     grunt : npm install -g grunt-cli
+     grunt : npm install grunt --save-dev  - add yourself to devDependencies
 
 steps to run
 ===============
-npm init	
-npm install grunt --save-dev
-npm install grunt-contrib-uglify --save-dev
-npm install grunt-contrib-cssmin --save-dev
-npm install grunt-contrib-compass --save-dev
+     npm init	
+     npm install grunt --save-dev
+     npm install grunt-contrib-uglify --save-dev
+     npm install grunt-contrib-cssmin --save-dev
+     npm install grunt-contrib-compass --save-dev
 
 
 compass 
