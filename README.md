@@ -7,6 +7,7 @@ what to install for grunt
 =============================
      grunt : npm install -g grunt-cli
      grunt : npm install grunt --save-dev  - add yourself to devDependencies
+     bower : npm install bower-installer
 
 steps to run
 ===============
