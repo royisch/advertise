@@ -1,9 +1,9 @@
-
 Before You Begin
 =========
 
-First things first, make sure you have git installed.
-The following commands should be ran in Git bash in your workspace directory.
+Make sure you have git installed.
+
+This manual should be ran in Git bash inside your workspace directory.
 In windows run <Git Installation>\git bash.vbs <worakspace Directory> (i.e c:\Program Files\Git\Git Bash.vbs c:\workspace\advertise)
 
 advertise
