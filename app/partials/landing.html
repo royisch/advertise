@@ -1,9 +1,9 @@
-<div class="navbar navbar-inverse navbar-static-top" ng-controller="landingCtrl">
+<div class="navbar navbar-inverse navbar-static-top purple_color" ng-controller="landingCtrl">
 
     <div class="container">
 
 
-        <div class="navbar-brand">Puta Madre</div>
+        <div class="navbar-brand title">Puta Madre</div>
 
         <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
             <span class ="icon-bar"></span>
@@ -11,7 +11,7 @@
             <span class ="icon-bar"></span>
         </button>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="#">item1</a></li>
+                <!--<li class="active"><a href="#">item1</a></li>
                 <li><a href="#">item2</a></li>
                 <li class="drop down">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">drop down<b class="caret"></b></a>
@@ -21,9 +21,9 @@
                         <li><a href="#">drop down #3</a></li>
                         <li><a href="#">drop down #4</a></li>
                     </ul>
-                </li>
+                </li>-->
                 <li style="color:white;margin-top: 15px;padding-right: 10px;">Hi {{user.name}} !</li>
-                <li style="margin-right: 20px"><img src="{{user.profilePic}}"/></li>
+                <li style="margin-right: 20px;width: 50px;height: 50px;"><img style="width: 50px;height: 50px;" src="{{user.profilePic}}"/></li>
                 <li style="color:white;margin-top: 15px;padding-right: 10px;" ng-click="logout()">Logout</li>
             </ul>
         </div>
